@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -a
+source .env
+set +a
+
+# テキストファイルを作成
+echo "こんにちは世界" > hello_world.txt
+
+# S3にアップロード
+aws s3 cp hello_world.txt s3://$AWS_BUCKET_NAME/hello_world.txt

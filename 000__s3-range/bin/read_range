@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -a
+source .env
+set +a
+
+# ひらがな文字 = 3バイト
+# 漢字文字 = 3バイト
+# 改行文字 = 1バイト
+
+# こ = 3 bytes (bytes 0-2)
+# ん = 3 bytes (bytes 3-5)
+# に = 3 bytes (bytes 6-8)
+# ち = 3 bytes (bytes 9-11)
+# は = 3 bytes (bytes 12-14)
+# 世 = 3 bytes (bytes 15-17)
+# 界 = 3 bytes (bytes 18-20)
+# \n = 1 byte (byte 21)
+
+BYTE_START=15
+BYTE_END=21
+
+aws s3api get-object \
+--bucket $AWS_BUCKET_NAME \
+--key hello_world.txt \
+--range bytes=$BYTE_START-$BYTE_END \
+/dev/stdout
