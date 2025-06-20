@@ -38,7 +38,7 @@ def annotate(client:, model_id:, file_path:, prompt:)
   
   # Parse Nova response
   result = JSON.parse(response.body.read)
-  text = result['output']['message']['content'][0]['text']
+  text = JSON.parse(result['output']['message']['content'][0]['text'])
   return text
 end
 
@@ -68,4 +68,3 @@ end
 
 File.write(output_file, JSON.pretty_generate(annotations))
 puts "Annotations saved to #{output_file}"
-puts "Successfully analyzed #{annotations.count { |k, v| !v.key?(:error) }} images"
