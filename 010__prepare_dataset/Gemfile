@@ -8,4 +8,5 @@ gem "aws-sdk-bedrockruntime"
 gem 'dotenv'
 gem 'rubyzip'
 gem 'nokogiri'
+gem 'ostruct'
 gem 'pry'

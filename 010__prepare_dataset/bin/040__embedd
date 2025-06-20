@@ -1,0 +1,144 @@
+#!/usr/bin/env ruby
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
+require 'bundler/setup'
+Bundler.require(:default)
+
+require 'aws-sdk-bedrockruntime'
+require 'json'
+require 'dotenv'
+
+Dotenv.load(File.expand_path('../.env', __dir__))
+
+def generate_embedding(client:, model_id:, text:)
+  return nil if text.nil? || text.empty?
+  
+  response = client.invoke_model({
+    model_id: model_id,
+    content_type: 'application/json',
+    body: JSON.generate({
+      inputText: text.strip,
+      dimensions: 1024,
+      normalize: true
+    })
+  })
+  
+  result = JSON.parse(response.body.read)
+  result['embedding']
+end
+
+def build_combined_text(data)
+  # Combine multiple fields for comprehensive semantic search
+  parts = []
+  parts << "#{data['asset_type']} #{data['asset_subtype']}" if data['asset_type']
+  parts << "made of #{data['material_type']}" if data['material_type']
+  parts << data['description'] if data['description']
+  parts << data['condition_assessment'] if data['condition_assessment']
+  if data['defect_detected'] && data['defect_types']&.any?
+    parts << "defects found: #{data['defect_types'].join(', ')}"
+    parts << "severity: #{data['severity_level']}" if data['severity_level']
+  end
+  parts << data['safety_concerns'] if data['safety_concerns']
+  parts << data['maintenance_recommendations'] if data['maintenance_recommendations']
+  parts << "location: #{data['location_context']}" if data['location_context']
+  parts << "condition: #{data['approximate_age_condition']}" if data['approximate_age_condition']
+  parts << "environment: #{data['environmental_factors']}" if data['environmental_factors']
+  parts << "tags: #{data['tags'].join(', ')}" if data['tags']&.any?
+  parts.compact.join('. ')
+end
+
+def escape_sql_string(str)
+  return 'NULL' if str.nil?
+  "'" + str.gsub("'", "''") + "'"
+end
+
+def format_array_for_sql(arr)
+  return "'{}'" if arr.nil? || arr.empty?
+  escaped_items = arr.map { |item| "\"#{item.gsub('"', '\"')}\"" }
+  "'{#{escaped_items.join(',')}}'"
+end
+
+def format_vector_for_sql(vector)
+  return 'NULL' if vector.nil?
+  "'[#{vector.join(',')}]'"
+end
+
+def generate_insert_sql(filename, data, description_embedding, combined_embedding)
+  # Handle maintenance recommendations (could be array or string)
+  maintenance_recs = case data['maintenance_recommendations']
+  when Array
+    data['maintenance_recommendations'].join('. ')
+  when String
+    data['maintenance_recommendations']
+  else
+    nil
+  end
+
+  values = [
+    escape_sql_string(filename),
+    escape_sql_string(data['asset_type']),
+    escape_sql_string(data['asset_subtype']),
+    escape_sql_string(data['material_type']),
+    data['defect_detected'] ? 'TRUE' : 'FALSE',
+    format_array_for_sql(data['defect_types']),
+    escape_sql_string(data['severity_level']),
+    data['confidence_score'] || 'NULL',
+    data['requires_action'] ? 'TRUE' : 'FALSE',
+    escape_sql_string(data['description']),
+    escape_sql_string(data['condition_assessment']),
+    escape_sql_string(data['safety_concerns']),
+    escape_sql_string(maintenance_recs),
+    escape_sql_string(data['environmental_factors']),
+    escape_sql_string(data['approximate_age_condition']),
+    escape_sql_string(data['location_context']),
+    format_array_for_sql(data['tags']),
+    format_vector_for_sql(description_embedding),
+    format_vector_for_sql(combined_embedding),
+    escape_sql_string('amazon.nova-pro-v1:0')
+  ]
+
+  <<~SQL
+    INSERT INTO infrastructure_images (
+      filename, asset_type, asset_subtype, material_type,
+      defect_detected, defect_types, severity_level, confidence_score, requires_action,
+      description, condition_assessment, safety_concerns, maintenance_recommendations,
+      environmental_factors, approximate_age_condition, location_context,
+      tags, description_embedding, combined_embedding, model_used
+    ) VALUES (
+      #{values.join(",\n  ")}
+    );
+  SQL
+end
+
+def embedd(client,model_id,json_file,output_file)
+  annotations = JSON.parse(File.read(json_file))
+  sql_statements = [
+    "-- Generated at: #{Time.now}"
+  ]
+  annotations.each do |filename, data|
+    puts "Processing #{filename}..."
+    # Generate embeddings
+    description_embedding = generate_embedding(
+      client: client, 
+      model_id: model_id, 
+      text: data['description']
+    )
+    combined_text  = build_combined_text(data)
+    combined_embedding = generate_embedding(
+      client: client,
+      model_id: model_id,
+      text: combined_text
+    )
+    sql_statements << generate_insert_sql(filename, data, description_embedding, combined_embedding)
+    sleep(0.5)
+  end
+
+  File.write(output_file, sql_statements.join("\n"))
+  puts "SQL file generated: #{output_file}"
+end
+
+json_file   = File.expand_path('../outputs/annotate.json', __dir__)
+output_file = File.expand_path("../../020_prepare_vector_database/sql/insert-#{Time.now.to_i}.sql", __dir__)
+client = Aws::BedrockRuntime::Client.new region: ENV['AWS_REGION']
+model_id = 'amazon.titan-embed-text-v2:0'
+
+embedd(client, model_id, json_file, output_file)

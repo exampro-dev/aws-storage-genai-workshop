@@ -7,7 +7,7 @@ require 'aws-sdk-s3'
 require 'zip'
 require 'dotenv'
 
-Dotenv.load
+Dotenv.load(File.expand_path('../.env', __dir__))
 
 # Delete existing zip file and inventory file
 File.delete(ENV['AWS_FILE_KEY']) if File.exist?(ENV['AWS_FILE_KEY'])

@@ -7,7 +7,7 @@ require 'aws-sdk-s3'
 require 'json'
 require 'dotenv'
 
-Dotenv.load
+Dotenv.load(File.expand_path('../.env', __dir__))
 
 # Initialize S3 client
 s3 = Aws::S3::Client.new
