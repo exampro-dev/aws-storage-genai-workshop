@@ -1,0 +1,19 @@
+#!/bin/bash
+# Get database connection string for pgvector
+STACK_NAME="rds-vector"
+REGION="ap-northeast-1"
+
+echo "Getting database connection string..."
+CONNECTION_STRING=$(aws cloudformation describe-stacks \
+  --region $REGION \
+  --stack-name $STACK_NAME \
+  --query 'Stacks[0].Outputs[?OutputKey==`ConnectionString`].OutputValue' \
+  --output text)
+
+if [ -z "$CONNECTION_STRING" ]; then
+    echo "Error: Could not get database connection string"
+    exit 1
+fi
+
+echo "Connecting with: $CONNECTION_STRING"
+psql "$CONNECTION_STRING"

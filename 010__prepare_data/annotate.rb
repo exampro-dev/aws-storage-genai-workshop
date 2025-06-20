@@ -1,0 +1,71 @@
+require 'aws-sdk-bedrockruntime'
+require 'dotenv'
+require 'json'
+require 'base64'
+require 'pry'
+
+Dotenv.load
+
+
+def annotate(client:, model_id:, file_path:, prompt:)
+  # Read and encode image
+  image_data = File.read(file_path)
+  base64_image = Base64.strict_encode64(image_data)
+  
+  # Call Amazon Nova
+  response = client.invoke_model({
+    model_id: model_id,
+    content_type: 'application/json',
+    # https://docs.aws.amazon.com/nova/latest/userguide/complete-request-schema.html
+    body: JSON.generate({
+      messages: [{
+        role: 'user',
+        content: [
+          { 'text': prompt },
+          { 'image': { 
+              format: 'jpeg', 
+              source: {bytes: base64_image }  # Base64-encoded string (Invoke API)
+            }  
+          } 
+        ]
+      }],
+      inferenceConfig: {
+        temperature: 0.1,
+        maxTokens: 1000
+      }
+    })
+  })
+  
+  # Parse Nova response
+  result = JSON.parse(response.body.read)
+  text = result['output']['message']['content'][0]['text']
+  return text
+end
+
+region = 'ap-northeast-1' # Tokyo
+prompt = File.read('prompts/annotate.txt')
+image_files = Dir.glob "images/*.jpg" 
+annotations = {}
+model_id = 'apac.amazon.nova-pro-v1:0' # have to use cross-region inference or it will error out
+client = Aws::BedrockRuntime::Client.new region: region
+output_file = 'annotate.json'
+
+image_files.each_with_index do |file_path, index|
+  filename = File.basename(file_path)
+  puts "Analyzing #{filename} (#{index + 1}/#{image_files.length})"
+  
+  attrs = {
+    client: client, 
+    file_path: file_path, 
+    prompt: prompt,
+    model_id: model_id
+  }
+  annotation = annotate(**attrs)
+  puts "annotate: #{annotation.inspect}"
+  annotations[filename] = annotation
+  sleep(1) # avoid rate limiting
+end
+
+File.write(output_file, JSON.pretty_generate(annotations))
+puts "Annotations saved to #{output_file}"
+puts "Successfully analyzed #{annotations.count { |k, v| !v.key?(:error) }} images"

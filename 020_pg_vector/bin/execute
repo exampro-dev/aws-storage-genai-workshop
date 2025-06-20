@@ -1,0 +1,31 @@
+#!/bin/bash
+# Get database connection string for pgvector
+STACK_NAME="rds-vector"
+REGION="ap-northeast-1"
+
+echo "Getting database connection string..."
+CONNECTION_STRING=$(aws cloudformation describe-stacks \
+  --region $REGION \
+  --stack-name $STACK_NAME \
+  --query 'Stacks[0].Outputs[?OutputKey==`ConnectionString`].OutputValue' \
+  --output text)
+
+if [ -z "$CONNECTION_STRING" ]; then
+    echo "Error: Could not get database connection string"
+    exit 1
+fi
+
+# Check if SQL file argument provided
+if [ $# -eq 1 ]; then
+    SQL_FILE=$1
+    if [ ! -f "$SQL_FILE" ]; then
+        echo "Error: SQL file '$SQL_FILE' not found"
+        exit 1
+    fi
+    echo "Executing SQL file: $SQL_FILE"
+    psql "$CONNECTION_STRING" -f "$SQL_FILE"
+else
+    echo "Connecting interactively..."
+    echo "Connection string: $CONNECTION_STRING"
+    psql "$CONNECTION_STRING"
+fi
