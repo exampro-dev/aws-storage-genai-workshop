@@ -22,7 +22,7 @@
 ## Test Downloading Single Image from the Archive
 
 ```sh
-./bin/030__download
+./bin/030__download hk0155.jpg
 ```
 
 ## Create Embedding Data
