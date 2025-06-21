@@ -46,12 +46,12 @@ def annotate(client:, model_id:, file_path:, prompt:)
   return text
 end
 
-prompt = File.read('prompts/annotate.txt')
-image_files = Dir.glob "images/*.jpg" 
+prompt   = File.read(File.expand_path('../inputs/prompts/annotate.txt', __dir__))
+image_files = Dir.glob(File.expand_path('../inputs/images/*.jpg', __dir__))
 annotations = {}
 model_id = 'apac.amazon.nova-pro-v1:0' # have to use cross-region inference or it will error out
 client = Aws::BedrockRuntime::Client.new region: ENV['AWS_REGION']
-output_file = 'annotate.json'
+output_file   = File.expand_path('../outputs/annotate.json', __dir__)
 
 image_files.each_with_index do |file_path, index|
   filename = File.basename(file_path)
