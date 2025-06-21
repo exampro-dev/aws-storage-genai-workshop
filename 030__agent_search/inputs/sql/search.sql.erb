@@ -1,0 +1,30 @@
+SELECT
+  filename,
+  asset_type,
+  asset_subtype,
+  severity_level,
+  defect_types,
+  description,
+  condition_assessment,
+  requires_action,
+  (1 - (combined_embedding <=> $1::vector)) 
+  <% if filters['asset_type'] %>
+    + CASE WHEN asset_type = $<%= param_count += 1 %> THEN 0.1 ELSE 0 END
+  <% end %>
+  <% if filters['severity_level'] %>
+    + CASE WHEN severity_level = $<%= param_count += 1 %> THEN 0.1 ELSE 0 END
+  <% end %>
+  <% if !filters['defect_detected'].nil? %>
+    + CASE WHEN defect_detected = $<%= param_count += 1 %> THEN 0.1 ELSE 0 END
+  <% end %>
+  <% if !filters['requires_action'].nil? %>
+    + CASE WHEN requires_action = $<%= param_count += 1 %> THEN 0.1 ELSE 0 END
+  <% end %>
+  <% if filters['defect_types'] && filters['defect_types'].any? %>
+    + CASE WHEN defect_types && $<%= param_count += 1 %> THEN 0.1 ELSE 0 END
+  <% end %>
+  as similarity_score
+FROM infrastructure_images
+WHERE combined_embedding IS NOT NULL
+ORDER BY similarity_score DESC
+LIMIT <%= limit %>

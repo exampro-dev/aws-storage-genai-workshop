@@ -6,6 +6,9 @@ GEM
     aws-sdk-bedrockruntime (1.49.0)
       aws-sdk-core (~> 3, >= 3.225.0)
       aws-sigv4 (~> 1.5)
+    aws-sdk-cloudformation (1.133.0)
+      aws-sdk-core (~> 3, >= 3.225.0)
+      aws-sigv4 (~> 1.5)
     aws-sdk-core (3.225.2)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -35,6 +38,7 @@ GEM
     nokogiri (1.18.7-arm64-darwin)
       racc (~> 1.4)
     ostruct (0.6.2)
+    pg (1.5.9)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -48,10 +52,12 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk-bedrockruntime
+  aws-sdk-cloudformation
   aws-sdk-s3
   dotenv
   nokogiri
   ostruct
+  pg
   pry
   rake
   rubyzip

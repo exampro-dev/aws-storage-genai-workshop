@@ -17,6 +17,13 @@ You need to report back possible technical paths and technical considerations fo
 
 ## Public Dataset
 
+## Technical Solution
+
+![](./docs/diagram.png)
+
+
+## 
+
 We are using the CUBIT Infrastructure Defect Detection Dataset
 
 https://github.com/BenyunZhao/CUBIT
