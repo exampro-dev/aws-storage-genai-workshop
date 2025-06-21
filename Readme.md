@@ -8,6 +8,25 @@ You need to report back possible technical paths and technical considerations fo
 
 ![](./docs/image-example.jpg)
 
+## Workshops Considertions
+
+- All resources will be created in `ap-northeast-1` Asia Pacific (Tokyo)
+- We'll be using GitHub Codespaces so we have a consistent developer enviroment 
+- We are not using free-tier services but the cost should be under $1 USD for the duration of the workshop
+- We'll be using the following repo: [https://github.com/ExamProCo/aws-storage-genai-workshop](https://github.com/ExamProCo/aws-storage-genai-workshop)
+
+
+## Workshops Setup 
+
+1. [Enable All Amazon Bedrock Models](https://ap-northeast-1.console.aws.amazon.com/bedrock/home?region=ap-northeast-1#/modelaccess) in `ap-northeast-1`
+2. [Generate AWS Credentaisl for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)
+
+3. Set AWS Credentials as GitHub secret variables:
+  - AWS_ACCESS_KEY_ID
+  - AWS_SECRET_ACCESS_KEY
+  - AWS_DEFAULT_REGION
+
+
 ## Technical Uncertainty
 
 - Can we extract specific bytes from an S3 file and read them?
