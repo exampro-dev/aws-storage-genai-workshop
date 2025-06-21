@@ -14,6 +14,7 @@ You need to report back possible technical paths and technical considerations fo
 - We'll be using GitHub Codespaces so we have a consistent developer enviroment 
 - We are not using free-tier services but the cost should be under $1 USD for the duration of the workshop
 - We'll be using the following repo: [https://github.com/ExamProCo/aws-storage-genai-workshop](https://github.com/ExamProCo/aws-storage-genai-workshop)
+- We may need to rebuild the container for AWS CLI to be installed
 
 
 ## Workshops Setup 
