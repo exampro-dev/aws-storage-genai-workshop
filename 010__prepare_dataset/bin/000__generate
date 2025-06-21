@@ -20,6 +20,7 @@ def generate_image(prompt, filename)
   bedrock = Aws::BedrockRuntime::Client.new
 
   # リクエストボディ
+  # https://docs.aws.amazon.com/bedrock/latest/userguide/bedrock-runtime_example_bedrock-runtime_InvokeModel_AmazonNovaImageGeneration_section.html
   request_body = {
     taskType: "TEXT_IMAGE",
     textToImageParams: {
@@ -34,6 +35,7 @@ def generate_image(prompt, filename)
       height: 1024
     }
   }
+  puts request_body
 
   # Nova Canvasモデルを呼び出し
   response = bedrock.invoke_model({
@@ -52,7 +54,7 @@ def generate_image(prompt, filename)
 end
 
 generate_image(ENV['IMAGE_IDEA_1'], 'outputs/images/image_1.png')
-generate_image(ENV['IMAGE_IDEA_2'], 'outputs/images/image_2.png')
-generate_image(ENV['IMAGE_IDEA_3'], 'outputs/images/image_3.png')
-generate_image(ENV['IMAGE_IDEA_4'], 'outputs/images/image_4.png')
-generate_image(ENV['IMAGE_IDEA_5'], 'outputs/images/image_5.png')
+#generate_image(ENV['IMAGE_IDEA_2'], 'outputs/images/image_2.png')
+#generate_image(ENV['IMAGE_IDEA_3'], 'outputs/images/image_3.png')
+#generate_image(ENV['IMAGE_IDEA_4'], 'outputs/images/image_4.png')
+#generate_image(ENV['IMAGE_IDEA_5'], 'outputs/images/image_5.png')

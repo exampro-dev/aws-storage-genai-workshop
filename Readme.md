@@ -16,13 +16,6 @@ You need to report back possible technical paths and technical considerations fo
 - We'll be using the following repo: [https://github.com/ExamProCo/aws-storage-genai-workshop](https://github.com/ExamProCo/aws-storage-genai-workshop)
 - We may need to rebuild the container for AWS CLI to be installed
 
-## Install AWS CLI
-
-```sh
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" && \
-cd /tmp && unzip awscliv2.zip && sudo ./aws/install && \
-rm -rf awscliv2.zip aws/ && cd -
-```
 
 > devcontainers doesn't always work on Codespaces and requires lengthly rebuild and then even still hangs.
 
@@ -31,10 +24,20 @@ rm -rf awscliv2.zip aws/ && cd -
 1. [Enable All Amazon Bedrock Models](https://ap-northeast-1.console.aws.amazon.com/bedrock/home?region=ap-northeast-1#/modelaccess) in `ap-northeast-1`
 2. [Generate AWS Credentaisl for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)
 
-3. Set AWS Credentials as GitHub secret variables:
-  - AWS_ACCESS_KEY_ID
-  - AWS_SECRET_ACCESS_KEY
-  - AWS_DEFAULT_REGION
+
+### Install AWS CLI
+
+```sh
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" && \
+cd /tmp && unzip awscliv2.zip && sudo ./aws/install && \
+rm -rf awscliv2.zip aws/ && cd -
+```
+
+### Run Bunlder
+
+```sh
+bundle install
+```
 
 
 ## Technical Uncertainty
