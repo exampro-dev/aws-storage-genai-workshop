@@ -3,6 +3,12 @@
 ```sh
 ./bin/deploy
 ```
+## Install PSQL
+
+```sh
+sudo apt update
+sudo apt install postgresql-client
+```
 
 ## Load Data into Databaase 
 ```sh
