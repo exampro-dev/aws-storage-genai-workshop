@@ -16,6 +16,15 @@ You need to report back possible technical paths and technical considerations fo
 - We'll be using the following repo: [https://github.com/ExamProCo/aws-storage-genai-workshop](https://github.com/ExamProCo/aws-storage-genai-workshop)
 - We may need to rebuild the container for AWS CLI to be installed
 
+## Install AWS CLI
+
+```sh
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" && \
+cd /tmp && unzip awscliv2.zip && sudo ./aws/install && \
+rm -rf awscliv2.zip aws/ && cd -
+```
+
+> devcontainers doesn't always work on Codespaces and requires lengthly rebuild and then even still hangs.
 
 ## Workshops Setup 
 
