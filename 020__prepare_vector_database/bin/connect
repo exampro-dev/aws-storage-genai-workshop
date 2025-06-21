@@ -1,4 +1,9 @@
 #!/bin/bash
+
+set -a
+source ../.env
+set +a
+
 # Get database connection string for pgvector
 STACK_NAME="rds-vector"
 REGION="ap-northeast-1"
