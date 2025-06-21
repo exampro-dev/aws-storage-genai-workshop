@@ -14,7 +14,7 @@ s3 = Aws::S3::Client.new
 
 # Read the local inventory file
 inventory_filename = "#{File.basename(ENV['AWS_FILE_KEY'], '.zip')}_inventory.json"
-inventory_path   = File.expand_path("../outputs/#{inventory_filename}", __dir__)
+inventory   = File.expand_path("../outputs/#{inventory_filename}", __dir__)
 
 # Specify which file you want to extract
 target_file = ARGV[0] || 'photo.jpg'  # or get from user input
