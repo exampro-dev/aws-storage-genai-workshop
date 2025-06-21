@@ -27,3 +27,13 @@ alignment issues, debris accumulation, water damage, scaling, efflorescence, and
 Be specific about the severity and location of any defects found. Generate relevant tags that would help with semantic search.
 
 Do not surround output with a codeblock eg. ```json
+Please be sure to return the correct structure for example:
+
+environmental_factors is supposed to be a comma delimitated string:
+eg. "environmental_factors": "weather, lighting, accessibility conditions visible",
+
+This example is bad because its describing environmental_factors as full sentence:
+eg.  "environmental_factors": "The image was taken during daylight with adequate lighting. The building appears to be in an urban setting with limited accessibility due to the narrow alley.",
+
+This example is bad because its returning environmental_factors as a json object:
+eg. "environmental_factors": { "weather": "dry", "lighting": "good", "accessibility": "easy" },

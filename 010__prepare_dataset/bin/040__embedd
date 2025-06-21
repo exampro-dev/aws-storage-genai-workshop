@@ -73,6 +73,8 @@ def generate_insert_sql(filename, data, description_embedding, combined_embeddin
     nil
   end
 
+  puts data
+
   values = [
     escape_sql_string(filename),
     escape_sql_string(data['asset_type']),

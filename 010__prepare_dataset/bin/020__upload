@@ -71,7 +71,7 @@ s3.put_object(
 # Upload inventory file to S3
 s3.put_object(
   bucket: ENV['AWS_BUCKET_NAME'],
-  key: inventory_path,
+  key: inventory_filename,
   body: File.open(inventory_path),
   content_type: 'application/x-ndjson'
 )
