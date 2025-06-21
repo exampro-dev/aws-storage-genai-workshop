@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+set -a
+source ../.env
+set +a
 
 STACK_NAME="rds-vector"
 TEMPLATE_FILE="template.yaml"
