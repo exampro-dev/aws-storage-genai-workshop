@@ -9,13 +9,24 @@ require 'dotenv'
 
 Dotenv.load(File.expand_path('../../.env', __dir__))
 
+archive_path = File.expand_path("../outputs/#{ENV['AWS_FILE_KEY']}", __dir__)
+inventory_filename = "#{File.basename(ENV['AWS_FILE_KEY'], '.zip')}_inventory.json"
+inventory_path   = File.expand_path("../outputs/#{inventory_filename}", __dir__)
+image_files = Dir.glob(File.expand_path('../inputs/images/*.jpg', __dir__))
+
+puts "PATHS===="
+puts archive_path
+puts inventory_path
+puts image_files
+
+
 # Delete existing zip file and inventory file
-File.delete(ENV['AWS_FILE_KEY']) if File.exist?(ENV['AWS_FILE_KEY'])
-File.delete("#{File.basename(ENV['AWS_FILE_KEY'], '.zip')}_inventory.json") if File.exist?("#{File.basename(ENV['AWS_FILE_KEY'], '.zip')}_inventory.json")
+File.delete(archive_path) if File.exist?(archive_path)
+File.delete(inventory_path) if File.exist?(inventory_path)
 
 # Zip all images in images directory
-Zip::File.open(ENV['AWS_FILE_KEY'], Zip::File::CREATE) do |zipfile|
-  Dir.glob('images/*').each do |file|
+Zip::File.open(archive_path, Zip::File::CREATE) do |zipfile|
+  image_files.each do |file|
     zipfile.add(File.basename(file), file)
   end
 end
@@ -23,7 +34,7 @@ end
 # Now read the created ZIP to get accurate byte positions
 inventory = { files: [] }
 # Analyze ZIP structure
-Zip::File.open(ENV['AWS_FILE_KEY']) do |zip|
+Zip::File.open(archive_path) do |zip|
   zip.each do |entry|
     next if entry.directory?
     
@@ -45,8 +56,7 @@ Zip::File.open(ENV['AWS_FILE_KEY']) do |zip|
   end
 end
 
-# Save inventory file
-inventory_path = "#{File.basename(ENV['AWS_FILE_KEY'], '.zip')}_inventory.json"
+
 File.write(inventory_path, JSON.pretty_generate(inventory))
 
 # Upload zip file to S3
@@ -54,7 +64,7 @@ s3 = Aws::S3::Client.new
 s3.put_object(
   bucket: ENV['AWS_BUCKET_NAME'],
   key: ENV['AWS_FILE_KEY'],
-  body: File.open(ENV['AWS_FILE_KEY']),
+  body: File.open(archive_path),
   content_type: 'application/zip'
 )
 
