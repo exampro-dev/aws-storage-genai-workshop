@@ -6,23 +6,33 @@ As a Cloud Engineer you have been tasked to building a proof-of-concept where yo
 
 You need to report back possible technical paths and technical considerations for this project.
 
+![](./docs/image-example.jpg)
+
 ## Technical Uncertainty
 
 - Can we extract specific bytes from an S3 file and read them?
-- Can we extract a specific image file from a zip archive from s3 (without the need to download archive)
-- Can we generate annotation for images in structure json output using Amazon Nova?
-- Will a vector database enable us to find matching images using natural langauge?
-- Can we get Amazon Nova to generate our query to our vector database?
+  - [000__test_s3_range](./000__test_s3_range/Readme.md)
 - Can we use Amazon Nova to generate mock images to vary our dataset?
+  - [010__prepare_dataset/bin/000__generate](./010__prepare_dataset/bin/000__generate)
+- Can we annotate the images in structure json output using Amazon Nova?
+  - [010__prepare_dataset/bin/010__annotate](./010__prepare_dataset/bin/010__annotate)
+- Can we extract a specific image file from a zip archive from s3 (without the need to download archive)
+  - [010__prepare_dataset/bin/020__upload](./010__prepare_dataset/bin/020__upload)
+  - [010__prepare_dataset/bin/030__download](./010__prepare_dataset/bin/030__download)
+- Can we use Nova Titans to create embeddings for our vector search database?
+  - [010__prepare_dataset/bin/040__embedd](./010__prepare_dataset/bin/040__embedd)
+- Can we deploy pgvector database via container on a t3.micro?
+  - [020__prepare_dataset](./020__prepare_dataset/Readme.md)
+- Can we get Amazon Nova to generate our query to our vector database and return the results?
+  - [030__agent_search](./030__agent_search/Readme.md)
 
-## Public Dataset
 
 ## Technical Solution
 
 ![](./docs/diagram.png)
 
 
-## 
+## Public Dataset
 
 We are using the CUBIT Infrastructure Defect Detection Dataset
 
