@@ -50,9 +50,6 @@ Please click this button to deploy:
 </a>
 
 
-
-
-
 ## Prepare GitHub CodeSpaces Environment
 2. [Generate AWS  for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)
 
