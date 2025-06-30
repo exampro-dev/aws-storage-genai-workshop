@@ -43,6 +43,14 @@
 
 <img src="./assets/search_iam.png" width="600px"></img>
 
+1. Click on `ユーザー`
+2. Click on `ユーザーの作成`
+
+<img src="./assets/navigate_users.png" width="600px"></img>
+
+1. Click on 次へ
+
+
 
 ## Prepare GitHub CodeSpaces Environment
 2. [Generate AWS  for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)

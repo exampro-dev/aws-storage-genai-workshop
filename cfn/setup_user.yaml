@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: IAM User with scoped access to Bedrock, S3, RDS, and CloudFormation in Tokyo region
+
+Parameters:
+  UserName:
+    Type: String
+    Default: GenAIStorageUser
+    Description: IAM username to create
+
+Resources:
+  GenAIStorageUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref UserName
+      ManagedPolicyArns: []
+      Policies:
+        - PolicyName: RegionScopedAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                  - bedrock:ListFoundationModels
+                  - bedrock:GetModelInvocationLoggingConfiguration
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: ap-northeast-1
+              - Effect: Allow
+                Action:
+                  - s3:ListAllMyBuckets
+                  - s3:ListBucket
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: ap-northeast-1
+              - Effect: Allow
+                Action:
+                  - rds:DescribeDBInstances
+                  - rds:Connect
+                  - rds:DescribeDBClusters
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: ap-northeast-1
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                  - cloudformation:ListStacks
+                  - cloudformation:GetTemplate
+                  - cloudformation:DescribeStackResources
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: ap-northeast-1
+  AccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref GenAIStorageUser
+
+Outputs:
+  AccessKeyId:
+    Value: !Ref AccessKey
+    Description: The access key ID for the user
+
+  SecretAccessKey:
+    Value: !GetAtt AccessKey.SecretAccessKey
+    Description: The secret access key for the user
