@@ -4,38 +4,44 @@
 
 ### Enable All Amazon Bedrock Models
 
-- Change your region your to `東京 ap-northeast-1`
+1. Drop down the region changer
+2. Change your region your to `東京 ap-northeast-1`
 
 <img src="./assets/change_region.png" width="600px"></img>
 
-- In the search bar type `bedrock`
-- Click on Amazon Bedrock to go to this service.
+1. In the search bar type `bedrock`
+2. Click on Amazon Bedrock to go to this service.
 
 <img src="./assets/navigate_bedrock.png" width="600px"></img>
 
-- In the left hand column click on `モデルアクセス`
+1. In the left hand column click on `モデルアクセス`
 
 <img src="./assets/find_model_access.png" width="600px"></img>
 
-- Click on `すべてのモデルを有効にする`
+1. Click on `すべてのモデルを有効にする`
 
 <img src="./assets/start_model_access.png" width="600px"></img>
 
-- Click on `次へ`
+1. Click on `次へ`
 
 <img src="./assets/select_models.png" width="600px"></img>
 
 
-- Click on `送信`
+1. Click on `送信`
 
 <img src="./assets/confirm_model.png" width="600px"></img>
 
-- See that the models `Nova Pro`, `Nova Canvas` are enabled
+1. See that the models `Nova Pro`, `Nova Canvas` are enabled
 
 <img src="./assets/see_models.png" width="600px"></img>
 
 
-### Generate AWS Credentials to use in Github Codespaces Developer Environment
+### Generate AWS Credentials
+
+1. In the search bar type `iam`
+2. Click on IAM to go to this service.
+
+![](./assets/search_iam.png)
 
 ## Prepare GitHub CodeSpaces Environment
 2. [Generate AWS  for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)
