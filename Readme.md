@@ -15,5 +15,5 @@
 - [Setup](./docs/010__setup.md)
   - [AWS Account Setup](./docs/010__setup.md#aws-account-setup)
     - [Enable All Amazon Bedrock Models](./docs/010__setup.md#enable-all-amazon-bedrock-models)
-    - [Generate AWS Credentials](./docs/010__setup.md#generate-aws-credentials-to-use-in-github-codespaces-developer-environment)
+    - [Generate AWS Credentials](./docs/010__setup.md#generate-aws-credentials)
   - [GitHub CodeSpaces Setup](...)
