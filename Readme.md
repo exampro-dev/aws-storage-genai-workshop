@@ -1,71 +1,19 @@
-## Business Use-Case
+# AWS GenAI Storage Workshop
 
-An engineering firm needs to audit and track public infrastructure for safety via drone arial footage. They have captured tens of thousands of images (eg. cracks in bridges) and have stored them within archives based on year and month.
+## Prerequisites 
+- AWS Account
+- GitHub Account
 
-As a Cloud Engineer you have been tasked to building a proof-of-concept where you can use GenAI to use natural language to retrieve an image from the archive.
+## Table of Contents
 
-You need to report back possible technical paths and technical considerations for this project.
+- [Overview](./docs/000__overview.md)
+  - [Business Use-Case](./docs/000__overview.md#business-use-case)
+  - [Considertions and Requirements](./docs/000__overview.md#considertions-and-requirements)
+  - [Technical Diagram](./docs/000__overview.md#technical-diagram)
+  - [Public Dataset](./docs/000__overview.md#public-dataset)
 
-![](./docs/image-example.jpg)
-
-## Workshops Considertions
-
-- All resources will be created in `ap-northeast-1` Asia Pacific (Tokyo)
-- We'll be using GitHub Codespaces so we have a consistent developer enviroment 
-- We are not using free-tier services but the cost should be under $1 USD for the duration of the workshop
-- We'll be using the following repo: [https://github.com/ExamProCo/aws-storage-genai-workshop](https://github.com/ExamProCo/aws-storage-genai-workshop)
-- We may need to rebuild the container for AWS CLI to be installed
-
-
-> devcontainers doesn't always work on Codespaces and requires lengthly rebuild and then even still hangs.
-
-## Workshops Setup 
-
-1. [Enable All Amazon Bedrock Models](https://ap-northeast-1.console.aws.amazon.com/bedrock/home?region=ap-northeast-1#/modelaccess) in `ap-northeast-1`
-2. [Generate AWS Credentaisl for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)
-
-
-### Install AWS CLI
-
-```sh
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" && \
-cd /tmp && unzip awscliv2.zip && sudo ./aws/install && \
-rm -rf awscliv2.zip aws/ && cd -
-```
-
-### Run Bunlder
-
-```sh
-bundle install
-```
-
-
-## Technical Uncertainty
-
-- Can we extract specific bytes from an S3 file and read them?
-  - [000__test_s3_range](./000__test_s3_range/Readme.md)
-- Can we use Amazon Nova to generate mock images to vary our dataset?
-  - [010__prepare_dataset/bin/000__generate](./010__prepare_dataset/bin/000__generate)
-- Can we annotate the images in structure json output using Amazon Nova?
-  - [010__prepare_dataset/bin/010__annotate](./010__prepare_dataset/bin/010__annotate)
-- Can we extract a specific image file from a zip archive from s3 (without the need to download archive)
-  - [010__prepare_dataset/bin/020__upload](./010__prepare_dataset/bin/020__upload)
-  - [010__prepare_dataset/bin/030__download](./010__prepare_dataset/bin/030__download)
-- Can we use Nova Titans to create embeddings for our vector search database?
-  - [010__prepare_dataset/bin/040__embedd](./010__prepare_dataset/bin/040__embedd)
-- Can we deploy pgvector database via container on a t3.micro?
-  - [020__prepare_dataset](./020__prepare_dataset/Readme.md)
-- Can we get Amazon Nova to generate our query to our vector database and return the results?
-  - [030__agent_search](./030__agent_search/Readme.md)
-
-
-## Technical Solution
-
-![](./docs/diagram.png)
-
-
-## Public Dataset
-
-We are using the CUBIT Infrastructure Defect Detection Dataset
-
-https://github.com/BenyunZhao/CUBIT
+- [Setup](./docs/010__setup.md)
+  - [AWS Account Setup](./docs/010__setup.md#aws-account-setup)
+    - [Enable All Amazon Bedrock Models](./docs/010__setup.md#enable-all-amazon-bedrock-models)
+    - [Generate AWS Credentials](./docs/010__setup.md#generate-aws-credentials-to-use-in-github-codespaces-developer-environment)
+  - [GitHub CodeSpaces Setup](...)
