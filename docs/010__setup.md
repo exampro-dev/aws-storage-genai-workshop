@@ -41,7 +41,7 @@
 - Let's create a new AWS user with AWS Credentials
 - Please click this button to deploy a new user
 
-<a target="_blani" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/create/review?templateURL=https://raw.githubusercontent.com/ExamProCo/aws-storage-genai-workshop/refs/heads/main/cfn/setup_user.yaml">
+<a target="_blank" width="100px" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/create/review?templateURL=https://raw.githubusercontent.com/ExamProCo/aws-storage-genai-workshop/refs/heads/main/cfn/setup_user.yaml">
 <img src="./assets/launch_stack_user.png"/>
 </a>
 
