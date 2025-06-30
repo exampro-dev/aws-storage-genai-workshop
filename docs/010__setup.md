@@ -41,7 +41,8 @@
 1. In the search bar type `iam`
 2. Click on IAM to go to this service.
 
-![](./assets/search_iam.png)
+<img src="./assets/search_iam.png" width="600px"></img>
+
 
 ## Prepare GitHub CodeSpaces Environment
 2. [Generate AWS  for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)
