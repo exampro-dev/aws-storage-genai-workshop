@@ -36,12 +36,16 @@
 <img src="./assets/see_models.png" width="600px"></img>
 
 
-### Generate AWS Credentials
+### Setup AWS Infrastructure
 
-- Let's create a new AWS user with AWS Credentials
-- Please click this button to deploy a new user
+This will create:
+- AWS User with AWS Credentials
+- S3 Bucket
+- RDS Instance
 
-<a target="_blank" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/create/review?templateURL=https://raw.githubusercontent.com/ExamProCo/aws-storage-genai-workshop/main/cfn/setup_user.yaml">
+Please click this button to deploy:
+
+<a target="_blank" href="https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1#/stacks/create/review?templateURL=https://storage-genai-workshop.s3.ap-northeast-1.amazonaws.com/setup.yaml">
 <img  width="200px" src="./assets/launch_stack_user.png"/>
 </a>
 
