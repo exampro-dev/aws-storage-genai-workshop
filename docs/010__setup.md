@@ -79,14 +79,27 @@ Please click this button to deploy:
 <img  width="200px" src="./assets/launch_stack_user.png"/>
 </a>
 
-
-
-
 ## Prepare GitHub CodeSpaces Environment
-2. [Generate AWS  for GitHub CodeSpaces](https://us-east-1.console.aws.amazon.com/iam/home?region=ap-northeast-1#/users)
+
+1. Click on `Code`
+2. Click on `Codespaces`
+3. Click on `Create codespace on main`
+
+<img src="./assets/launch_codespaces.png" width="600px"></img>
 
 
-### Install AWS CLI
+1. Install Ruby Libraries by running `bundle install`
+
+```sh
+cd /workspaces/aws-storage-genai-workshop 
+bundle install
+```
+
+<img src="./assets/bundle_install.png" width="600px"></img>
+
+> To install nokogiri will takes 1-2 mins
+
+1. Install AWS CLI
 
 ```sh
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" && \
@@ -94,8 +107,6 @@ cd /tmp && unzip awscliv2.zip && sudo ./aws/install && \
 rm -rf awscliv2.zip aws/ && cd -
 ```
 
-### Run Bunlder
+<img src="./assets/install_aws_cli.png" width="600px"></img>
 
-```sh
-bundle install
-```
+🎉  **Setup Complete セットアップ完了** 🎉 
