@@ -1,27 +1,22 @@
-## Copy and Set Dot Env File.
+## Technical Uncertainty
 
-Create a copy of the .env.example in the root directory called `.env`
+We want to determine if we can read part of a file without downloading the entire file.
 
-- Update AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-- Set your own unique AWS_BUCKET_NAME
-
-```sh
-cd /workspaces/aws-storage-genai-workshop/000__test_s3_range/
-```
-
-## Create Bucket
-
-```bash
-./bin/create_bucket
-```
+Amazon S3 suggests you can use a RANGE Http Header to specific the byte range to download.
 
 ## Upload File
+
+We will upload a file called `hello_world.txt` to our bucket.
+
+The contents of this file is `こんにちは世界`.
 
 ```bash
 ./bin/upload_file
 ```
 
-## Read Part of file
+## Read Part Of File
+
+We will specfic the byte range to only read `世界`.
 
 ```bash
 ./bin/read_range
