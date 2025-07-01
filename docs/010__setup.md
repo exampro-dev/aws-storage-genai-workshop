@@ -87,6 +87,11 @@ Please click this button to deploy:
 
 <img src="./assets/launch_codespaces.png" width="600px"></img>
 
+1. Create copy of `.env.example and name it `.env`
+2. Update `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_BUCKET_NAME` (get the values from the Cloudformation Stack)
+
+<img src="./assets/set_env.png" width="600px"></img>
+
 
 1. Install Ruby Libraries by running `bundle install`
 
